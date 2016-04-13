@@ -1,4 +1,72 @@
+@import url("http://fonts.googleapis.com/css?family=Raleway:400,300,600");
+@import url("../vendor/skeleton-css/css/normalize.css");
+@import url("../vendor/skeleton-css/css/skeleton.css");
+
 .tag-editor {
-	display: inline-block;
-	position: relative;
+    display: inline-block;
+    position: relative;
+}
+.tag-editor * {
+    box-sizing: border-box;
+}
+.tag-editor input[type="text"] {
+    margin: 0 0 2px 0;
+}
+.tag-editor input[type="text"],
+.tag-editor .options-dropdown,
+.tag-editor .new-tag {
+    width: 200px;
+}
+.tag-editor .new-tag,
+.tag-editor .options-dropdown {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    border-radius: 6px;
+    border: solid 1px #33C3F0;
+    overflow: hidden;
+}
+.tag-editor .options-dropdown li {
+    list-style-type: none;
+}
+.tag-editor .new-tag,
+.tag-editor .options-dropdown li {
+    padding: 10px 20px;
+    margin: 0;
+    cursor: pointer;
+}
+.tag-editor .options-dropdown li:hover,
+.tag-editor .new-tag {
+    background-color: #33C3F0;
+    color: #fff;
+}
+
+.tag-editor .tag {
+    border-radius: 16px;
+    background: #33C3F0;
+    color: #fff;
+    padding: 2px 0 2px 8px;
+    font-size: 12px;
+    display: inline-block;
+    margin: 2px 4px 2px 0;
+    line-height: 1;
+}
+.tag-editor .tag span {
+    display: inline-block;
+    line-height: 1.7;
+}
+.tag-editor .tag button {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    background: none;
+    border: none;
+    height: 21px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    width: 20px;
+    display: inline-block;
+    line-height: 1;
 }

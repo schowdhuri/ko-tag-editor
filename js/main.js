@@ -1,12 +1,13 @@
 ;$(function() {
 	"use strict";
 
-	function ViewModel() {
+	function ViewModel(settings) {
 		var that = this;
 
 		this.options = ko.observableArray([]);
 		this.tagName = ko.observable();
 		this.inputHasFocus = ko.observable(false);
+		this.dropdownOpen = ko.observable(false);
 
 		this.availableOptions = ko.pureComputed(function() {
 			var tagName = that.tagName();
@@ -41,14 +42,26 @@
 			return false;
 		});
 		this.showAvailableOptions = ko.pureComputed(function() {
-			return !that.isNewTag() && that.inputHasFocus();
+			return !that.isNewTag() && that.dropdownOpen() && that.availableOptions().length;
 		});
-		
+
 		this.onTagAdd = function() {
-			that.options.push({
+			var p;
+			var item = {
 				text : that.tagName(),
-				value : that.tagName(),
-				_isSelected : true
+				value : that.tagName()
+			};
+			if(typeof(settings.onAdd)==="function") {
+				p = settings.onAdd(item);
+			} else {
+				p = Promise.resolve();
+			}
+			p.then(function() {
+				that.options.push({
+					text : item.text,
+					value : item.value,
+					_isSelected : true
+				});
 			});
 			that.tagName("");
 		};
@@ -74,6 +87,16 @@
 				return;
 			that.options.splice(index, 1, opt);
 		};
+
+		this.inputHasFocus.subscribe(function(val) {
+			if(val) {
+				that.dropdownOpen(true);
+			} else {
+				setTimeout(function() {
+					that.dropdownOpen(false);
+				}, 50);
+			}
+		});
 	};
 
 	var vm = new ViewModel();

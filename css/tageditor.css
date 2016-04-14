@@ -1,7 +1,3 @@
-@import url("http://fonts.googleapis.com/css?family=Raleway:400,300,600");
-@import url("../vendor/skeleton-css/css/normalize.css");
-@import url("../vendor/skeleton-css/css/skeleton.css");
-
 .tag-editor {
     display: inline-block;
     position: relative;
@@ -20,6 +16,7 @@
 .tag-editor .new-tag,
 .tag-editor .options-dropdown {
     position: absolute;
+    z-index: 2;
     margin: 0;
     padding: 0;
     background-color: #fff;
@@ -37,6 +34,7 @@
     cursor: pointer;
 }
 .tag-editor .options-dropdown li:hover,
+.tag-editor .options-dropdown li.highlighted,
 .tag-editor .new-tag {
     background-color: #33C3F0;
     color: #fff;

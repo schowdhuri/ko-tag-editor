@@ -14,7 +14,6 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.2.3",
     "knockout": "~3.4.0",
     "skeleton-css": "~2.0.4"
   }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <title>Tag Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/demo.css">
+    <link rel="stylesheet" href="css/tageditor.css">
+</head>
+<body>
+    <div class="container">
+        <hr>
+        <div class="row">
+            <div class="twelve columns">
+                <label class="control-label">Add tags</label>
+                <tag-editor></tag-editor>
+            </div>
+        </div>
+        <div class="row">
+            <div class="twelve columns">
+                <label class="control-label">Add tags</label>
+                <tag-editor params="items: items2, onBeforeDelete: confirmDelete"></tag-editor>
+            </div>
+        </div>
+        <hr>
+
+        <footer>
+            <p>MIT License</p>
+        </footer>
+    </div> <!-- /container -->
+        <script src="vendor/knockout/dist/knockout.debug.js"></script>
+        <script src="js/tageditor.js"></script>
+        <script src="js/demo.js"></script>
+        </body>
+</html>

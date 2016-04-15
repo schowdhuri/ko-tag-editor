@@ -1,7 +1,10 @@
 ;(function () {
     "use strict";
     var template = "<div class='tag-editor'>";
-    template += "    <input type='text' data-bind='textInput: tagName, hasFocus: inputHasFocus, event:{ keydown: onKeyDown }' />";
+    template += "    <input type='text' data-bind='textInput: tagName,";
+    template += "                                  hasFocus: inputHasFocus,";
+    template += "                                  event: { keydown: onKeyDown },";
+    template += "                                  attr: {placeholder: placeholder }' />";
     template += "    <!-- ko if: allowAdd && isNewTag() -->";
     template += "    <div class='new-tag' data-bind='text: newTagName, click: onTagAdd'></div>";
     template += "    <!-- /ko -->";
@@ -31,10 +34,12 @@
         this.tagName = ko.observable();
         this.inputHasFocus = ko.observable(false);
         this.dropdownOpen = ko.observable(false);
-        this.allowAdd = params && typeof(params.allowAdd)!=="undefined" ? !!params.allowAdd : true;
         this.highlighted = ko.observable(-1);
         this.preSelectedItems = (params && typeof(params.preSelectedItems)==="function" ? params.preSelectedItems :
                         (params && params.preSelectedItems ? ko.observableArray(params.preSelectedItems) : ko.observableArray([])));
+
+        this.allowAdd = params && typeof(params.allowAdd)!=="undefined" ? !!params.allowAdd : true;
+        this.placeholder = params && params.placeholder || "";
         // --------------------------------
         // Computed
         // --------------------------------
@@ -189,12 +194,10 @@
         });
         this.preSelectedItems.subscribe(function() {
             var items = that.preSelectedItems();
-            console.log("array: ", items);
             items.forEach(function(item) {
                 var optionIndex = that.findOption(item);
                 var option;
                 if(optionIndex<0){
-                    console.log("value not found: ", item.value);
                     return;
                 }
                 option = that.options()[optionIndex];

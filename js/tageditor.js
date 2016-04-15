@@ -31,7 +31,7 @@
         this.tagName = ko.observable();
         this.inputHasFocus = ko.observable(false);
         this.dropdownOpen = ko.observable(false);
-        this.allowAdd = !!params.allowAdd || true;
+        this.allowAdd = params && typeof(params.allowAdd)!=="undefined" ? !!params.allowAdd : true;
         this.highlighted = ko.observable(-1);
         this.preSelectedItems = (params && typeof(params.preSelectedItems)==="function" ? params.preSelectedItems :
                         (params && params.preSelectedItems ? ko.observableArray(params.preSelectedItems) : ko.observableArray([])));
@@ -87,7 +87,7 @@
                         that.highlighted(highlighted-1);
                     return false;
                 case 13: // ENTER/RETURN
-                    if(that.isNewTag()) {
+                    if(that.allowAdd && that.isNewTag()) {
                         // add
                         that.onTagAdd();
                     } else if(highlighted>-1 && highlighted<availableOptions.length) {
@@ -216,5 +216,4 @@
         viewModel : ViewModel,
         template : template
     });
-
 })();

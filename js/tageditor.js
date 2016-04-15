@@ -26,12 +26,15 @@
         // --------------------------------
         // Observables
         // --------------------------------
-        this.options = ko.observableArray(params && params.items || []);
+        this.options = (params && typeof(params.items)==="function" ? params.items :
+                        (params && params.items ? ko.observableArray(params.items) : ko.observableArray([])));
         this.tagName = ko.observable();
         this.inputHasFocus = ko.observable(false);
         this.dropdownOpen = ko.observable(false);
         this.allowAdd = !!params.allowAdd || true;
         this.highlighted = ko.observable(-1);
+        this.preSelectedItems = (params && typeof(params.preSelectedItems)==="function" ? params.preSelectedItems :
+                        (params && params.preSelectedItems ? ko.observableArray(params.preSelectedItems) : ko.observableArray([])));
         // --------------------------------
         // Computed
         // --------------------------------
@@ -115,11 +118,7 @@
                 p = Promise.resolve(item);
             }
             p.then(function(newitem) {
-                that.options.push({
-                    text : newitem.text,
-                    value : newitem.value,
-                    _isSelected : true
-                });
+                Object.assign({ _isSelected : true }, newitem);
                 if(typeof(params.onAdd)==="function") {
                     p = params.onAdd(newitem);
                 }
@@ -142,8 +141,16 @@
             return true;
         };
         this.onTagSelect = function(opt) {
-            opt._isSelected = true;
-            that.updateOption(opt);
+            var p;
+            if(typeof(params.onBeforeSelect)==="function") {
+                p = params.onBeforeSelect(opt);
+            } else {
+                p = Promise.resolve();
+            }
+            p.then(function() {
+                opt._isSelected = true;
+                that.updateOption(opt);
+            });
             return true;
         };
         // --------------------------------
@@ -179,6 +186,22 @@
             if(val)
                 that.highlighted(-1);
         });
+        this.preSelectedItems.subscribe(function() {
+            var items = that.preSelectedItems();
+            console.log("array: ", items);
+            items.forEach(function(item) {
+                var optionIndex = that.findOption(item);
+                var option;
+                if(optionIndex<0){
+                    console.log("value not found: ", item.value);
+                    return;
+                }
+                option = that.options()[optionIndex];
+                Object.assign(option, item); // allow adding new attrs
+                option._isSelected = true;
+                that.updateOption(option);
+            });
+        });
         // --------------------------------
         // Cleanup
         // --------------------------------
@@ -187,10 +210,11 @@
         };
     };
     // --------------------------------
-    // Register
+    // Init
     // --------------------------------
     ko.components.register("tag-editor", {
         viewModel : ViewModel,
         template : template
     });
+
 })();

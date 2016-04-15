@@ -16,7 +16,8 @@
 				else
 					reject();
 			});
-		}
+		},
+		selectedItems2 : ko.observableArray()
 	};
 	ko.applyBindings(tagsViewModel, document.querySelector(".container"));
 })();

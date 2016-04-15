@@ -118,7 +118,8 @@
                 p = Promise.resolve(item);
             }
             p.then(function(newitem) {
-                Object.assign({ _isSelected : true }, newitem);
+                newitem._isSelected = true;
+                that.options.push(newitem);
                 if(typeof(params.onAdd)==="function") {
                     p = params.onAdd(newitem);
                 }
